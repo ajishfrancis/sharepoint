@@ -1,0 +1,27 @@
+---
+  - name: Configuring Network Rules for ec2 at subnet level.
+    hosts: localhost
+    connection: localhost
+    var_files:
+    - [var.yml]
+    tasks:
+  - name: "Create and associate production DMZ network ACL  DMZ subnets"
+    ec2_vpc_nacl:
+             vpc_id: vpc-12345678
+             name: prod-dmz-nacl
+             region: ap--southeast-2
+             subnets: ['prod-dmz-1', 'prod-dmz-2']
+             tags:
+                CostCode: CC1234
+                Project: phoenix
+                Description: production DMZ
+             ingress: [
+
+                 [100, 'tcp', 'allow', '0.0.0.0/0', null, null, 22, 22],
+                 [200, 'tcp', 'allow', '0.0.0.0/0', null, null, 22, 22],
+                 [100, 'icmp', 'allow', '0.0.0.0/0', 0, 22],
+             ]
+             egress: [
+                   [100, 'all', 'allow', '0.0.0.0/0', null, null, null, null]
+             ]
+             state: 'present'

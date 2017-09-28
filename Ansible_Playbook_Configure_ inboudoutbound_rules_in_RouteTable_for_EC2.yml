@@ -1,0 +1,26 @@
+---
+ - hosts: localhost
+   name: Configuring Inbound/Outbound Rules in Route table for EC2
+   connection: localhost
+   var_files:
+   - [var.yml]
+   tasks:
+    - ec2_group:
+        name: Example 1 for EC2 group
+        vpc_id: 12345
+        region: abc
+        rules: 
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 10.0.0.0/8
+          - proto: icmp
+            from_port: 8
+            to_port: -1
+            cidr_ip: 10.0.0.0/8
+        rules_egress:
+          - proto: tcp
+            from_port: 80
+            to_port: 80
+            cidr_ip: 0.0.0.0/0
+            

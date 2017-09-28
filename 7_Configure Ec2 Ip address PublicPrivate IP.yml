@@ -1,0 +1,16 @@
+---
+- name: Configuration of IP Address
+  hosts: localhost
+  connection: local
+  vars_files:
+  - [var.yml]
+  tasks:
+  - ec2:
+     key_name:
+     instance_type: 
+     image: 
+     wait: yes
+     group: 
+     vpc_subnet_id:
+     assign_public_ip: yes
+     private_ip: 192.168.1.1 
